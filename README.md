@@ -24,3 +24,77 @@ Salida del comando `java -version.`
 
 La creación del endpoint me permito comprobar que el servidor Spring Boot estaba funcionando correctamente ya que me devolvio un JSON con las parametros requeridos a su vez 
 entendi que Spring Boot facilita el trabajo ya que no es necesario configurar manualmente esto nos permita crear y ejecutar aplicaciones web de manera facil y sencilla.
+
+# Capturas practica 2
+
+### Captura del IDE mostrando la estructura modular
+
+<img width="492" height="1129" alt="image" src="https://github.com/user-attachments/assets/8dfa59cf-0d90-43be-8465-699f2d0f391b" />
+
+### Captura del archivo Fundamentos01Application.java
+
+<img width="1919" height="968" alt="image" src="https://github.com/user-attachments/assets/d1769866-d8f6-4ea9-b758-870596f7e9df" />
+
+### Explicación breve
+
+¿Por qué es importante tener módulos separados?
+
+La organización modular permite separ responsabilidades dentro del proyecto ya que cada dominio contiene sus propies controladores, servicios y repositorios lo que facilita el mantenimiento y escalabilidad.
+
+# Capturas practica 3
+
+### Captura de consumo de endpoints de Products desde Postman.
+
+- 1. `GET /api/products Con 3 preductos creados`
+
+<img width="1230" height="633" alt="image" src="https://github.com/user-attachments/assets/dc58109d-c31e-44b3-92b0-6a2e128dd6ef" />
+
+- 2. `GET /api/products/:id Con un producto existente`
+
+<img width="1241" height="480" alt="image" src="https://github.com/user-attachments/assets/efb2e56c-8d81-4fa7-b17c-ed914edcece8" />
+
+- 3. `DELETE /api/products/:id Eliminando un producto existente`
+
+<img width="1228" height="416" alt="image" src="https://github.com/user-attachments/assets/2211974b-2ee9-4392-8778-5c53a0051446" />
+
+- 4. `DELETE /api/products/:id Eliminando un producto que no existe`
+
+<img width="1234" height="403" alt="image" src="https://github.com/user-attachments/assets/8571cd32-a9b2-4169-8008-be221c068b69" />
+
+# Capturas practica 4
+
+### Captura completa de ProductServiceImpl.java
+
+<img width="1439" height="1099" alt="image" src="https://github.com/user-attachments/assets/c169a595-7cd1-483b-b164-cd86743b6c3f" />
+
+### Captura de ProductsController.java
+
+<img width="1431" height="1094" alt="image" src="https://github.com/user-attachments/assets/ef79e9cd-99bc-4296-9648-f0f2b3890ac1" />
+
+- ¿Cómo se inyecta el servicio en el controlador?
+
+El servicio se inyecta mediante el constructor del controlador, spring boot detecta que el controlador necesita un productServicey busca la implementacion marcada con @Service (ProductServiceImpl) crea una instancia y la pasa automáticamnete al controladr.
+
+# Capturas practica 5
+
+### Captura de 5 productos creados en PostgreSQL
+
+<img width="1454" height="560" alt="image" src="https://github.com/user-attachments/assets/ee18547e-5b9b-4c87-8f99-a0557b2fdb8f" />
+
+- 1. Explicar brevemente el flujo de datos desde la API REST hasta PostgreSQL y viceversa, destacando el uso de BaseEntity.
+
+El flujo inicia cuando el cliente envía una petición HTTP al controlador, el controlador delega la operación al servicio, que utiliza el repositorio JPA para comunicarse con PostgreSQL y los datos se guardan en la tabla products como entidades que heredan de BaseEntity y al consultar el repositorio devuelve entidades, que se convierten en modelos y luego en DTOs de respuesta para el cliente.
+
+# Capturas practica 6
+
+### Error al crear producto con precio negativo
+
+<img width="1241" height="413" alt="Captura de pantalla 2026-06-24 123013" src="https://github.com/user-attachments/assets/dc151dcd-ecbf-4188-a1c2-8d1491b671c1" />
+
+### Error al actualizar producto eliminado
+
+<img width="1236" height="415" alt="image" src="https://github.com/user-attachments/assets/7cb79243-ba64-436a-be02-478c06532a2e" />
+
+### findAll no devuelve prodcutos eliminados 
+
+<img width="1246" height="623" alt="image" src="https://github.com/user-attachments/assets/f9d00c64-86eb-430b-85e1-bd0c5c39cd92" />
