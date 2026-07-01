@@ -34,10 +34,12 @@ public class ProductEntity extends BaseEntity{
     public ProductEntity() {
     }
 
-    public ProductEntity(String name, Double price, Integer stock) {
+    public ProductEntity(String name, Double price, Integer stock, UserEntity owner, CategoryEntity category) {
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.owner = owner;
+        this.category = category;
     }
 
     public String getName() {

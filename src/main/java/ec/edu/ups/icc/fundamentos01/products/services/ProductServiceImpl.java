@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import ec.edu.ups.icc.fundamentos01.categories.entities.CategoryEntity;
+import ec.edu.ups.icc.fundamentos01.categories.repositories.CategoryRepository;
 import ec.edu.ups.icc.fundamentos01.core.exceptions.domain.ConflictException;
 import ec.edu.ups.icc.fundamentos01.core.exceptions.domain.NotFoundException;
 import ec.edu.ups.icc.fundamentos01.products.dtos.CreateProductDto;
@@ -16,46 +18,89 @@ import ec.edu.ups.icc.fundamentos01.products.mappers.ProductMapper;
 import ec.edu.ups.icc.fundamentos01.products.models.Product;
 import ec.edu.ups.icc.fundamentos01.products.models.ProductModel;
 import ec.edu.ups.icc.fundamentos01.products.repository.ProductRepository;
+import ec.edu.ups.icc.fundamentos01.users.entity.UserEntity;
+import ec.edu.ups.icc.fundamentos01.users.repository.UserRepository;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository){
-        this.productRepository=productRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+
+    public ProductServiceImpl(
+            ProductRepository productRepository,
+            UserRepository userRepository,
+            CategoryRepository categoryRepository
+    ) {
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @Override
     public List<ProductResponseDto> findAll() {
-       return productRepository.findAll()
+        return productRepository.findByDeletedFalse()
                 .stream()
-                .filter(entity -> !entity.isDeleted())
-                .map(Product::fromEntity)
-                .map(Product::toResponseDto)
+                .map(this::toResponse) 
                 .toList();
     }
+
     @Override
     public ProductResponseDto findOne(Long id) {
-        return productRepository.findById(id)
-                .filter(entity -> !entity.isDeleted())
-                .map(Product::fromEntity)
-                .map(Product::toResponseDto)
+        ProductEntity entity = productRepository.findById(id)
+                .filter(prod -> !prod.isDeleted())
                 .orElseThrow(() -> new NotFoundException("Product not found"));
+        return toResponse(entity);
+    }
+
+    @Override
+    public List<ProductResponseDto> findByUserId(Long userId) {
+        if (!userRepository.existsByIdAndDeletedFalse(userId)) {
+            throw new NotFoundException("User not found");
+        }
+        return productRepository.findByOwner_IdAndDeletedFalse(userId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<ProductResponseDto> findByCategoryId(Long categoryId) {
+        if (!categoryRepository.existsByIdAndDeletedFalse(categoryId)) {
+            throw new NotFoundException("Category not found");
+        }
+        return productRepository.findByCategory_IdAndDeletedFalse(categoryId)
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     @Override
     public ProductResponseDto create(CreateProductDto dto) {
-        Optional<ProductEntity> existingProduct=productRepository.findByName(dto.getName());
-        if(existingProduct.isPresent()&&!existingProduct.get().isDeleted()){
+        UserEntity owner = userRepository.findById(dto.getUserId())
+                .filter(u -> !u.isDeleted())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        CategoryEntity category = categoryRepository.findById(dto.getCategoryId())
+                .filter(c -> !c.isDeleted())
+                .orElseThrow(() -> new NotFoundException("Category not found"));
+
+        Optional<ProductEntity> existingProduct = productRepository.findByNameIgnoreCaseAndDeletedFalse(dto.getName());
+        if (existingProduct.isPresent()) {
             throw new ConflictException("Product name already registered");
         }
 
-        Product product=Product.fromDto(dto);
-        ProductEntity entity=product.toEntity();
-        ProductEntity savedEntity=productRepository.save(entity);
+        ProductEntity entity = new ProductEntity();
+        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+        entity.setStock(dto.getStock());
+        entity.setOwner(owner);       
+        entity.setCategory(category); 
 
-        return Product.fromEntity(savedEntity).toResponseDto();
+        ProductEntity savedEntity = productRepository.save(entity);
+        return toResponse(savedEntity);
     }
 
     @Override
@@ -64,41 +109,71 @@ public class ProductServiceImpl implements ProductService{
                 .filter(prod -> !prod.isDeleted())
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
-        Product product=Product.fromEntity(entity);
-        product.update(dto);
+        CategoryEntity category = categoryRepository.findById(dto.getCategoryId())
+                .filter(c -> !c.isDeleted())
+                .orElseThrow(() -> new NotFoundException("Category not found"));
 
-        ProductEntity updatedEntity=product.toEntity();
-        ProductEntity savedEntity=productRepository.save(updatedEntity);
+        entity.setName(dto.getName());
+        entity.setPrice(dto.getPrice());
+        entity.setStock(dto.getStock());
+        entity.setCategory(category);
 
-        return Product.fromEntity(savedEntity).toResponseDto();
+        ProductEntity savedEntity = productRepository.save(entity);
+        return toResponse(savedEntity);
     }
 
     @Override
     public ProductResponseDto partialUpdate(Long id, PartialUpdateProductDto dto) {
         ProductEntity entity = productRepository.findById(id)
-                .filter(prod -> !prod.isDeleted()) 
-                .orElseThrow(() -> new NotFoundException("Product not found or cannot be updated because it is deleted"));
+                .filter(prod -> !prod.isDeleted())
+                .orElseThrow(() -> new NotFoundException("Product not found"));
 
-        Product product = Product.fromEntity(entity);
+        if (dto.getName() != null) entity.setName(dto.getName());
+        if (dto.getPrice() != null) entity.setPrice(dto.getPrice());
+        if (dto.getStock() != null) entity.setStock(dto.getStock());
         
-        product.partialUpdate(dto);
-        
-        ProductEntity updatedEntity = product.toEntity();
-        ProductEntity savedEntity = productRepository.save(updatedEntity);
+        if (dto.getCategoryId() != null) {
+            CategoryEntity category = categoryRepository.findById(dto.getCategoryId())
+                    .filter(c -> !c.isDeleted())
+                    .orElseThrow(() -> new NotFoundException("Category not found"));
+            entity.setCategory(category);
+        }
 
-        return Product.fromEntity(savedEntity).toResponseDto();
+        ProductEntity savedEntity = productRepository.save(entity);
+        return toResponse(savedEntity);
     }
 
     @Override
     public void delete(Long id) {
         ProductEntity entity = productRepository.findById(id)
+                .filter(prod -> !prod.isDeleted())
                 .orElseThrow(() -> new NotFoundException("Product not found"));
-
-        if (entity.isDeleted()) {
-            throw new NotFoundException("Product is already deleted");
-        }
 
         entity.setDeleted(true);
         productRepository.save(entity);
+    }
+
+    private ProductResponseDto toResponse(ProductEntity entity) {
+        ProductResponseDto dto = new ProductResponseDto();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setPrice(entity.getPrice());
+        dto.setStock(entity.getStock());
+        dto.setCreatedAt(entity.getCreatedAt());
+        dto.setUpdatedAt(entity.getUpdatedAt());
+
+        ProductResponseDto.UserSummaryDto ownerDto = new ProductResponseDto.UserSummaryDto();
+        ownerDto.setId(entity.getOwner().getId());
+        ownerDto.setName(entity.getOwner().getName());
+        ownerDto.setEmail(entity.getOwner().getEmail());
+        dto.setOwner(ownerDto);
+
+        ProductResponseDto.CategorySummaryDto categoryDto = new ProductResponseDto.CategorySummaryDto();
+        categoryDto.setId(entity.getCategory().getId());
+        categoryDto.setName(entity.getCategory().getName());
+        categoryDto.setDescription(entity.getCategory().getDescription());
+        dto.setCategory(categoryDto);
+
+        return dto;
     }
 }

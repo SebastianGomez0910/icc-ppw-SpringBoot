@@ -15,9 +15,9 @@ public class ProductResponseDto {
 
     private Integer stock;
 
-    private UserResponseDto owner;
+    private UserSummaryDto owner;
 
-    private CategoryResponseDto category;
+    private CategorySummaryDto category;
 
     private LocalDateTime createdAt;
 
@@ -26,8 +26,8 @@ public class ProductResponseDto {
     public ProductResponseDto() {
     }
 
-    public ProductResponseDto(Long id, String name, Double price, Integer stock, UserResponseDto owner,
-            CategoryResponseDto category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ProductResponseDto(Long id, String name, Double price, Integer stock, UserSummaryDto owner,
+            CategorySummaryDto category, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -70,22 +70,6 @@ public class ProductResponseDto {
         this.stock = stock;
     }
 
-    public UserResponseDto getOwner() {
-        return owner;
-    }
-
-    public void setOwner(UserResponseDto owner) {
-        this.owner = owner;
-    }
-
-    public CategoryResponseDto getCategory() {
-        return category;
-    }
-
-    public void setCategory(CategoryResponseDto category) {
-        this.category = category;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -100,5 +84,47 @@ public class ProductResponseDto {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public static class UserSummaryDto {
+        private Long id;
+        private String name;
+        private String email;
+
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+    }
+
+    public static class CategorySummaryDto {
+        private Long id;
+        private String name;
+        private String description;
+
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public String getName() { return name; }
+        public void setName(String name) { this.name = name; }
+        public String getDescription() { return description; }
+        public void setDescription(String description) { this.description = description; }
+    }
+
+    public UserSummaryDto getOwner() {
+        return owner;
+    }
+
+    public void setOwner(UserSummaryDto owner) {
+        this.owner = owner;
+    }
+
+    public CategorySummaryDto getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategorySummaryDto category) {
+        this.category = category;
     }
 }
