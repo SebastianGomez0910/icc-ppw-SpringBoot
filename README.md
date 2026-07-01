@@ -98,3 +98,37 @@ El flujo inicia cuando el cliente envía una petición HTTP al controlador, el c
 ### findAll no devuelve prodcutos eliminados 
 
 <img width="1246" height="623" alt="image" src="https://github.com/user-attachments/assets/f9d00c64-86eb-430b-85e1-bd0c5c39cd92" />
+
+# Capturas practica 7
+
+### Producto inexistente
+
+<img width="1222" height="399" alt="image" src="https://github.com/user-attachments/assets/c0d20931-272f-4415-944b-70ad17cfee8d" />
+
+### Producto duplicado
+
+<img width="1225" height="376" alt="image" src="https://github.com/user-attachments/assets/0ca05462-b333-494c-9f63-36748537d2f1" />
+
+### Error por validación de DTO
+
+<img width="1223" height="532" alt="image" src="https://github.com/user-attachments/assets/de5dfcb5-865f-4ea5-8570-f4d30860857a" />
+
+# Capturas practica 8
+
+### Tabla `products` en PostgreSQL
+
+<img width="1474" height="466" alt="image" src="https://github.com/user-attachments/assets/03b5a98d-96b8-4d35-9fbb-4e60b36fd019" />
+
+### Respuesta en bruno de la creación de Producto con sus relaciones
+
+<img width="1228" height="668" alt="image" src="https://github.com/user-attachments/assets/f2f82efb-713c-4acc-b231-779e1d7313ca" />
+
+### Captura de consulta de productos por categoría
+
+<img width="1224" height="701" alt="image" src="https://github.com/user-attachments/assets/3a69099b-0661-4713-b9dc-48051de43f5c" />
+
+### ¿Cómo se relaciona ProductEntity con UserEntity y CategoryEntity usando @ManyToOne y @JoinColumn?
+
+ProductEntity establece una relación de tipo "Muchos a Uno" con UserEntity y CategoryEntity mediante la anotación @ManyToOne. Esto indica que, a nivel de negocio, múltiples productos pueden pertenecer a un mismo usuario o categoría.
+
+A nivel de base de datos, la anotación @JoinColumn define explícitamente las columnas user_id y category_id dentro de la tabla products. Estas columnas actúan como claves foráneas, garantizando la integridad referencial al asegurar que cada producto esté vinculado obligatoriamente a registros existentes en las tablas users y categories.
