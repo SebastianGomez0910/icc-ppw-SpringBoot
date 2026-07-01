@@ -13,16 +13,22 @@ public class PartialUpdateProductDto {
     
     @Min(value = 0, message = "El stock no puede ser negativo")
     private Integer stock;
+
+    private Long categoryId;
     
     public PartialUpdateProductDto() {
     }
     
-    public PartialUpdateProductDto(String name, Double price, Integer stock) {
+    public PartialUpdateProductDto(
+            @Size(min = 3, max = 150, message = "El nombre debe tener entre 3 y 150 caracteres") String name,
+            @Min(value = 0, message = "El precio no puede ser negativo") Double price,
+            @Min(value = 0, message = "El stock no puede ser negativo") Integer stock, Long categoryId) {
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.categoryId = categoryId;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -40,5 +46,13 @@ public class PartialUpdateProductDto {
     }
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

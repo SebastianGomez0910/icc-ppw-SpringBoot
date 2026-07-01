@@ -19,15 +19,23 @@ public class UpdateProductDto {
     @Min(value = 0, message = "El stock no puede ser negativo")
     private Integer stock;
     
+    @NotNull(message = "El ID de la categoría es obligatorio")
+    private Long categoryId;
+
     public UpdateProductDto() {
     }
     
-    public UpdateProductDto(String name, Double price, Integer stock) {
+    public UpdateProductDto(
+            @NotBlank(message = "El nombre es obligatorio") @Size(min = 3, max = 150, message = "El nombre debe tener entre 3 y 150 caracteres") String name,
+            @NotNull(message = "El precio es obligatorio") @Min(value = 0, message = "El precio no puede ser negativo") Double price,
+            @NotNull(message = "El stock es obligatorio") @Min(value = 0, message = "El stock no puede ser negativo") Integer stock,
+            @NotNull(message = "El ID de la categoría es obligatorio") Long categoryId) {
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.categoryId = categoryId;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -45,5 +53,13 @@ public class UpdateProductDto {
     }
     public void setStock(Integer stock) {
         this.stock = stock;
-    }   
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }  
 }

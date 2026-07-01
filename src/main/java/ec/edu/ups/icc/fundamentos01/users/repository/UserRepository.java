@@ -11,4 +11,8 @@ import ec.edu.ups.icc.fundamentos01.users.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
 
     Optional<UserEntity> findByEmail(String email);
+    Optional<UserEntity> findByIdAndDeletedFalse(Long id);
+    Optional<UserEntity> findByName(String name);
+    
+    boolean existsByIdAndDeletedFalse(Long id);
 } 
