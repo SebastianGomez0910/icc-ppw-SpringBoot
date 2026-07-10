@@ -98,3 +98,85 @@ El flujo inicia cuando el cliente envía una petición HTTP al controlador, el c
 ### findAll no devuelve prodcutos eliminados 
 
 <img width="1246" height="623" alt="image" src="https://github.com/user-attachments/assets/f9d00c64-86eb-430b-85e1-bd0c5c39cd92" />
+
+# Capturas practica 7
+
+### Producto inexistente
+
+<img width="1222" height="399" alt="image" src="https://github.com/user-attachments/assets/c0d20931-272f-4415-944b-70ad17cfee8d" />
+
+### Producto duplicado
+
+<img width="1225" height="376" alt="image" src="https://github.com/user-attachments/assets/0ca05462-b333-494c-9f63-36748537d2f1" />
+
+### Error por validación de DTO
+
+<img width="1223" height="532" alt="image" src="https://github.com/user-attachments/assets/de5dfcb5-865f-4ea5-8570-f4d30860857a" />
+
+# Capturas practica 8
+
+### Tabla `products` en PostgreSQL
+
+<img width="1474" height="466" alt="image" src="https://github.com/user-attachments/assets/03b5a98d-96b8-4d35-9fbb-4e60b36fd019" />
+
+### Respuesta en bruno de la creación de Producto con sus relaciones
+
+<img width="1228" height="668" alt="image" src="https://github.com/user-attachments/assets/f2f82efb-713c-4acc-b231-779e1d7313ca" />
+
+### Captura de consulta de productos por categoría
+
+<img width="1224" height="701" alt="image" src="https://github.com/user-attachments/assets/3a69099b-0661-4713-b9dc-48051de43f5c" />
+
+### ¿Cómo se relaciona ProductEntity con UserEntity y CategoryEntity usando @ManyToOne y @JoinColumn?
+
+ProductEntity establece una relación de tipo "Muchos a Uno" con UserEntity y CategoryEntity mediante la anotación @ManyToOne. Esto indica que, a nivel de negocio, múltiples productos pueden pertenecer a un mismo usuario o categoría.
+
+A nivel de base de datos, la anotación @JoinColumn define explícitamente las columnas user_id y category_id dentro de la tabla products. Estas columnas actúan como claves foráneas, garantizando la integridad referencial al asegurar que cada producto esté vinculado obligatoriamente a registros existentes en las tablas users y categories.
+
+# Capturas practica 11
+
+###  registro exitoso
+
+<img width="1224" height="602" alt="Captura de pantalla 2026-07-08 144641" src="https://github.com/user-attachments/assets/02ed310a-1ed0-435e-bf98-3bcf82e770ce" />
+
+### login exitoso
+
+<img width="1228" height="681" alt="Captura de pantalla 2026-07-08 144830" src="https://github.com/user-attachments/assets/09e67f3a-06cf-425d-a761-d3ae228d590a" />
+
+### endpoint protegido sin token
+
+<img width="1221" height="499" alt="Captura de pantalla 2026-07-08 144948" src="https://github.com/user-attachments/assets/ff4f1048-d644-4f49-a2c8-14041f85f410" />
+
+### endpoint protegido con token
+
+<img width="1232" height="873" alt="Captura de pantalla 2026-07-08 145110" src="https://github.com/user-attachments/assets/4dca0745-1fe8-4c98-a5c6-929cd19f3991" />
+
+# Capturas Practica 13
+
+### Creación de producto con usuario autenticado
+
+<img width="1233" height="767" alt="image" src="https://github.com/user-attachments/assets/1a100164-8f63-48d2-97a5-8a2109444558" />
+
+### Bloqueo por producto ajeno
+
+<img width="1221" height="491" alt="image" src="https://github.com/user-attachments/assets/1430ea76-3291-4831-897c-71de997c7fc5" />
+
+### Eliminación de producto ajeno bloqueada
+
+<img width="1219" height="408" alt="image" src="https://github.com/user-attachments/assets/d1a79a0f-77da-4928-8cbb-4c189a3ff906" />
+
+### ADMIN modificando producto ajeno
+
+<img width="1219" height="790" alt="image" src="https://github.com/user-attachments/assets/e356d2df-3a6f-4568-9844-6717d201b160" />
+
+### Explicación breve
+
+¿Qué es ownership?
+
+
+¿Por qué no es seguro recibir userId en CreateProductDto?
+
+
+¿Cuál es la diferencia entre autorización por rol y autorización por ownership?
+****
+
