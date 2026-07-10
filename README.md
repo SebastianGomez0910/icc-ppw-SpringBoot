@@ -150,3 +150,33 @@ A nivel de base de datos, la anotación @JoinColumn define explícitamente las c
 ### endpoint protegido con token
 
 <img width="1232" height="873" alt="Captura de pantalla 2026-07-08 145110" src="https://github.com/user-attachments/assets/4dca0745-1fe8-4c98-a5c6-929cd19f3991" />
+
+# Capturas Practica 13
+
+### Creación de producto con usuario autenticado
+
+<img width="1233" height="767" alt="image" src="https://github.com/user-attachments/assets/1a100164-8f63-48d2-97a5-8a2109444558" />
+
+### Bloqueo por producto ajeno
+
+<img width="1221" height="491" alt="image" src="https://github.com/user-attachments/assets/1430ea76-3291-4831-897c-71de997c7fc5" />
+
+### Eliminación de producto ajeno bloqueada
+
+<img width="1219" height="408" alt="image" src="https://github.com/user-attachments/assets/d1a79a0f-77da-4928-8cbb-4c189a3ff906" />
+
+### ADMIN modificando producto ajeno
+
+<img width="1219" height="790" alt="image" src="https://github.com/user-attachments/assets/e356d2df-3a6f-4568-9844-6717d201b160" />
+
+### Explicación breve
+
+¿Qué es ownership?
+
+
+¿Por qué no es seguro recibir userId en CreateProductDto?
+
+
+¿Cuál es la diferencia entre autorización por rol y autorización por ownership?
+****
+
