@@ -1,41 +1,38 @@
 package ec.edu.ups.icc.fundamentos01.products.dtos;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import ec.edu.ups.icc.fundamentos01.categories.dtos.CategoryResponseDto;
-import ec.edu.ups.icc.fundamentos01.users.dtos.UserResponseDto;
 
 public class ProductResponseDto {
     
     private Long id;
-
     private String name;
-
     private Double price;
-
     private Integer stock;
 
     private UserSummaryDto owner;
 
-    private CategorySummaryDto category;
-
     private LocalDateTime createdAt;
-
     private LocalDateTime updatedAt;
+
+    private List<CategoryResponseDto> categories;  
 
     public ProductResponseDto() {
     }
 
     public ProductResponseDto(Long id, String name, Double price, Integer stock, UserSummaryDto owner,
-            CategorySummaryDto category, LocalDateTime createdAt, LocalDateTime updatedAt) {
+            LocalDateTime createdAt, LocalDateTime updatedAt,
+            List<CategoryResponseDto> categories) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.owner = owner;
-        this.category = category;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.categories = categories;
     }
 
     public Long getId() {
@@ -120,11 +117,11 @@ public class ProductResponseDto {
         this.owner = owner;
     }
 
-    public CategorySummaryDto getCategory() {
-        return category;
+    public List<CategoryResponseDto> getCategories() {
+        return categories;
     }
 
-    public void setCategory(CategorySummaryDto category) {
-        this.category = category;
+    public void setCategories(List<CategoryResponseDto> categories) {
+        this.categories = categories;
     }
 }
