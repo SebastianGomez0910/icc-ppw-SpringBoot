@@ -178,5 +178,31 @@ A nivel de base de datos, la anotación @JoinColumn define explícitamente las c
 
 
 ¿Cuál es la diferencia entre autorización por rol y autorización por ownership?
-****
 
+### Captura de login con refresh token
+
+<img width="1611" height="654" alt="image" src="https://github.com/user-attachments/assets/0473f886-130e-4305-b89d-3447472a5747" />
+
+### Captura de refresh exitoso
+
+<img width="1615" height="632" alt="image" src="https://github.com/user-attachments/assets/68f44128-3bc5-4073-9e89-4c03cf80d78c" />
+
+### Captura de logout
+
+<img width="1609" height="491" alt="image" src="https://github.com/user-attachments/assets/c3ec3726-9059-4d77-94f4-8209f262bb66" />
+
+### Captura de refresh después de logout
+
+<img width="1610" height="544" alt="image" src="https://github.com/user-attachments/assets/69075212-c676-4a25-a9a9-2433b5c72fe8" />
+
+### ¿Cuál es la diferencia entre access token y refresh token?
+
+El Access Token es un token de corta duración que viaja en el Header HTTP y se utiliza para dar acceso inmediato a endpoints protegidos de la API. El Refresh Token es un token de larga duración que viaja en el cuerpo de peticiones específicas del endpoint de autenticación /auth/refresh únicamente para solicitar nuevos pares de tokens cuando el Access Token expira.
+
+### ¿Por qué el refresh token no debe usarse en Authorization: Bearer?
+
+Por razones de seguridad y diseño. Si un Refresh Token viajara en cada petición HTTP dentro de los Headers, estaría expuesto constantemente a intercepciones en la red. Al restringir su uso exclusivamente a peticiones POST hacia /auth/refresh, minimizamos su exposición y evitamos que un Refresh Token comprometido pueda ser usado para alterar directamente recursos del backend.
+
+### ¿Qué significa rotar un refresh token?
+
+Significa que cada vez que un cliente envía un Refresh Token para renovar su sesión, el servidor lo invalida inmediatamente de la base de datos y le devuelve al cliente un nuevo Refresh Token junto con el nuevo Access Token. Esto evita que si un atacante roba un Refresh Token de forma silenciosa, pueda usarlo indefinidamente para generar nuevos accesos.
