@@ -206,3 +206,34 @@ Por razones de seguridad y diseño. Si un Refresh Token viajara en cada petició
 ### ¿Qué significa rotar un refresh token?
 
 Significa que cada vez que un cliente envía un Refresh Token para renovar su sesión, el servidor lo invalida inmediatamente de la base de datos y le devuelve al cliente un nuevo Refresh Token junto con el nuevo Access Token. Esto evita que si un atacante roba un Refresh Token de forma silenciosa, pueda usarlo indefinidamente para generar nuevos accesos.
+
+# Capturas de la practica 15
+
+### Captura de docker ps de Ubuntu Server mostrando ambos contenedores en ejecución.
+
+<img width="1919" height="150" alt="image" src="https://github.com/user-attachments/assets/3eb3c016-915a-498f-ac30-11eebf187b1a" />
+
+### Captura de curl de /api/actuator/health desde Ubuntu Server.
+
+<img width="1919" height="251" alt="Captura de pantalla 2026-07-17 153405" src="https://github.com/user-attachments/assets/1663ae92-cec4-4902-b8cc-33a3500b92ec" />
+
+### Captura de curl de /api/actuator/health desde la máquina anfitriona.
+
+<img width="1919" height="140" alt="image" src="https://github.com/user-attachments/assets/d7b8cc1b-1aad-4509-86de-d7a4545bc49f" />
+
+### Explicación de la conexión a PostgreSQL externo o evidencia de fallback utilizado.
+
+Para permitir que el contenedor de la API se comunique con la base de datos PostgreSQL instalada en la máquina anfitriona, se implementó la siguiente arquitectura de red y seguridad:
+
+Arquitectura de Red: Se configuró una red de tipo Host-Only en VirtualBox para establecer un segmento de red privado entre el anfitrión y el servidor invitado Ubuntu. Dentro de Ubuntu se creó una red de Docker (app-network) mediante el comando docker network create app-network, aislando el tráfico de la API de la red pública.
+
+Configuración del Servidor: Se modificó el archivo postgresql.conf en el anfitrión para permitir que el servicio PostgreSQL escuche peticiones en la interfaz de red privada, configurando listen_addresses = 'localhost,192.168.56.1'.
+
+Seguridad y Acceso (pg_hba.conf): Para autorizar la conexión proveniente del contenedor, se actualizó el archivo pg_hba.conf del anfitrión, se añadió una regla que permite el acceso al usuario ups desde el rango de red de Docker para asegurar que los contenedores autorizados tengan acceso a la base de datos devdb:
+host    devdb    ups    172.16.0.0/12    scram-sha-256
+
+Configuración de la API: La aplicación Spring Boot utiliza la variable de entorno DATABASE_URL para conectarse a la dirección IP del anfitrión. Esta configuración permite mantener el código fuente independiente del entorno, facilitando la portabilidad del contenedor hacia otros ambientes como Render sin necesidad de recompilación.
+
+### Captura consumo de login desde la máquina anfitriona con Bruno o Postman.
+
+<img width="1229" height="675" alt="image" src="https://github.com/user-attachments/assets/e5eb7ff2-4f5f-4efe-8ebb-f539446d506d" />
