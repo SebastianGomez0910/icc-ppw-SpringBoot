@@ -199,7 +199,53 @@ Por razones de seguridad y diseño. Si un Refresh Token viajara en cada petició
 
 Significa que cada vez que un cliente envía un Refresh Token para renovar su sesión, el servidor lo invalida inmediatamente de la base de datos y le devuelve al cliente un nuevo Refresh Token junto con el nuevo Access Token. Esto evita que si un atacante roba un Refresh Token de forma silenciosa, pueda usarlo indefinidamente para generar nuevos accesos.
 
-# Capturas de la practica 15
+# Capturas y Evidencias de la practica 15
+
+### Captura de Swagger UI cargado
+
+<img width="1919" height="953" alt="image" src="https://github.com/user-attachments/assets/59cbc1df-3310-4296-ab28-90304589c2ef" />
+
+### Captura del JSON OpenAPI
+
+<img width="1779" height="862" alt="Captura de pantalla 2026-07-21 132829" src="https://github.com/user-attachments/assets/4815764b-3f04-4e09-a293-f7eba00303e7" />
+<img width="1773" height="851" alt="Captura de pantalla 2026-07-21 132850" src="https://github.com/user-attachments/assets/98b0be33-0192-4d59-8ebf-2a7e7bec35b1" />
+
+### Captura del botón Authorize
+
+<img width="1919" height="919" alt="Captura de pantalla 2026-07-21 133416" src="https://github.com/user-attachments/assets/562e6cb3-93d3-4f0c-8961-694e68ebea3e" />
+
+### Captura de endpoint protegido sin token
+
+<img width="1779" height="878" alt="Captura de pantalla 2026-07-21 133756" src="https://github.com/user-attachments/assets/25750855-c4ee-4bee-9c0f-a26b013f1a6e" />
+
+### Captura de endpoint protegido con token desde Swagger
+
+<img width="1772" height="877" alt="image" src="https://github.com/user-attachments/assets/af0a5083-c88c-45f2-bb50-9387d809ab19" />
+
+### Captura de endpoint ADMIN con usuario normal
+
+<img width="1783" height="565" alt="image" src="https://github.com/user-attachments/assets/5e399b03-e2c6-46fd-95a5-4ca7bae6ace4" />
+
+### Captura de endpoint ADMIN con usuario administrador
+
+<img width="1598" height="978" alt="Captura de pantalla 2026-07-21 144515" src="https://github.com/user-attachments/assets/05086e57-4c15-4c65-abdc-7e3a0e7b5d90" />
+
+### ¿Cuál es la diferencia entre Swagger UI y OpenAPI?
+
+OpenAPI: Es la especificación estándar e independiente del lenguaje para describir la estructura y contratos de una API REST.
+
+Swagger UI: Es la herramienta de interfaz visual interactiva que lee esa especificación OpenAPI para mostrar una página web donde se puede visualizar y probar la API.
+
+### ¿Por qué Swagger puede ser público pero los endpoints seguir protegidos?
+
+Porque la documentación de Swagger y la lógica de negocio de la API operan de manera independiente en Spring Security. Permitir acceso público a las rutas de Swagger solo habilita la visualización del contrato y la interfaz gráfica, pero al intentar ejecutar o consumir cualquier operación protegida, el filtro de seguridad validará la autenticación y denegará el acceso si no se incluye un token JWT válido.
+
+
+### ¿Cómo se configura Swagger para enviar un JWT en Authorization: Bearer?
+
+Se configura registrando un componente de seguridad de tipo HTTP con esquema bearer y formato JWT dentro de la clase de configuración de OpenAPI, y aplicando la anotación @SecurityRequirement(name = "bearerAuth") en los controladores o métodos protegidos para habilitar el botón Authorize en la interfaz gráfica.
+
+# Capturas de la practica 16
 
 ### Captura de docker ps de Ubuntu Server mostrando ambos contenedores en ejecución.
 
