@@ -169,15 +169,7 @@ A nivel de base de datos, la anotación @JoinColumn define explícitamente las c
 
 <img width="1219" height="790" alt="image" src="https://github.com/user-attachments/assets/e356d2df-3a6f-4568-9844-6717d201b160" />
 
-### Explicación breve
-
-¿Qué es ownership?
-
-
-¿Por qué no es seguro recibir userId en CreateProductDto?
-
-
-¿Cuál es la diferencia entre autorización por rol y autorización por ownership?
+# Capturas de la parctica 14
 
 ### Captura de login con refresh token
 
@@ -230,7 +222,7 @@ Arquitectura de Red: Se configuró una red de tipo Host-Only en VirtualBox para 
 Configuración del Servidor: Se modificó el archivo postgresql.conf en el anfitrión para permitir que el servicio PostgreSQL escuche peticiones en la interfaz de red privada, configurando listen_addresses = 'localhost,192.168.56.1'.
 
 Seguridad y Acceso (pg_hba.conf): Para autorizar la conexión proveniente del contenedor, se actualizó el archivo pg_hba.conf del anfitrión, se añadió una regla que permite el acceso al usuario ups desde el rango de red de Docker para asegurar que los contenedores autorizados tengan acceso a la base de datos devdb:
-host    devdb    ups    172.16.0.0/12    scram-sha-256
+host devdb ups 172.16.0.0/12 scram-sha-256
 
 Configuración de la API: La aplicación Spring Boot utiliza la variable de entorno DATABASE_URL para conectarse a la dirección IP del anfitrión. Esta configuración permite mantener el código fuente independiente del entorno, facilitando la portabilidad del contenedor hacia otros ambientes como Render sin necesidad de recompilación.
 
